@@ -18,7 +18,8 @@ func init() {
 func main() {
 	http.HandleFunc("/epic", handlers.EpicSearchHandler)
 	http.HandleFunc("/voter-details", handlers.VoterDetailsSearchHandler)
-	http.HandleFunc("/mobile", handlers.MobileSearchHandler)
+	http.HandleFunc("/mobile-send-otp", handlers.MobileSendOtpHandler)
+	http.HandleFunc("/mobile-search", handlers.MobileSearchHandler)
 	http.HandleFunc("/generate-captcha", handlers.GenerateCaptchaHandler)
 	http.HandleFunc("/states", handlers.CommonStatesHandler)
 

@@ -9,6 +9,29 @@ import (
 	"voter-search/utils"
 )
 
+func MobileSendOtpHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var req models.MobileSendOTPRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Error decoding request body", http.StatusBadRequest)
+		return
+	}
+	// Log the received JSON
+	log.Printf("Received Mobile search OTP request: %+v\n", req)
+
+	apiResponse, err := utils.FetchMobileSendOtp(req)
+	if err != nil {
+		utils.SendJSONError(w, "Error Sending Mobile OTP: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(apiResponse)
+}
 func MobileSearchHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -21,14 +44,14 @@ func MobileSearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Log the received JSON
-	log.Printf("Received EPIC search request: %+v\n", req)
+	log.Printf("Received Mobile search request: %+v\n", req)
 
-	apiResponse, err := utils.FetchMobileSendOtp(req)
+	apiResponse, err := utils.FetchMobileDetails(req)
 	if err != nil {
 		utils.SendJSONError(w, "Error Sending Mobile OTP: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(apiResponse)
+	json.NewEncoder(w).Encode(apiResponse[0].Content)
 }
