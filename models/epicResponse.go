@@ -1,8 +1,6 @@
 // models/epicResponse.go
 package models
 
-import "time"
-
 type EpicSearchResponse struct {
 	Error   bool   `json:"error"`
 	Message string `json:"message"`
@@ -75,7 +73,7 @@ type EpicAPIContent struct {
 	RevisionId              *int           `json:"revisionId,omitempty"`
 	StatusType              *TrimmedString `json:"statusType,omitempty"`
 	SectionNo               int            `json:"sectionNo,omitempty"`
-	PollingDate             *time.Time     `json:"pollingDate,omitempty"`
+	PollingDate             *TrimmedString `json:"pollingDate,omitempty"`
 	ElectionDate            TrimmedString  `json:"electionDate,omitempty"`
 	ElectionTime            *TrimmedString `json:"electionTime,omitempty"`
 	PsbuildingName          TrimmedString  `json:"psbuildingName,omitempty"`
