@@ -42,6 +42,40 @@ func FetchEpicInfo(requestData models.EpicSearchRequest) ([]models.EpicAPIRespon
 
 	return responses, nil
 }
+
+func FetchVoterSearchInfo(requestData models.VoterSearchRequest) ([]models.EpicAPIResponse, error) {
+	apiBaseURL := os.Getenv("API_URL")
+	url := fmt.Sprintf("%s/api/v1/elastic/search-by-details-from-state-display", apiBaseURL)
+
+	requestBody, err := json.Marshal(requestData)
+	if err != nil {
+		return nil, fmt.Errorf("error marshaling request data: %w", err)
+	}
+
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(requestBody))
+	if err != nil {
+		return nil, fmt.Errorf("error making request to external API: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// Check for non-200 HTTP status codes
+	if resp.StatusCode != http.StatusOK {
+		return nil, HandleHTTPError(resp)
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading response body: %w", err)
+	}
+
+	var responses []models.EpicAPIResponse
+	if err := json.Unmarshal(body, &responses); err != nil {
+		return nil, fmt.Errorf("error decoding response: %w", err)
+	}
+
+	return responses, nil
+}
+
 func FetchMobileSendOtp(requestData models.MobileSendOTPRequest) (*models.MobileAPIResponse, error) {
 	apiBaseURL := os.Getenv("API_URL")
 	url := fmt.Sprintf("%s/api/v1/elastic-otp/send-otp-search", apiBaseURL)
@@ -74,6 +108,7 @@ func FetchMobileSendOtp(requestData models.MobileSendOTPRequest) (*models.Mobile
 
 	return responses, nil
 }
+
 func FetchMobileDetails(requestData models.MobileSearchRequest) ([]models.EpicAPIResponse, error) {
 	apiBaseURL := os.Getenv("API_URL")
 	url := fmt.Sprintf("%s/api/v1/elastic/search-by-mobile-from-state-search-display", apiBaseURL)

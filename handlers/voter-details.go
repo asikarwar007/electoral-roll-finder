@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"voter-search/models"
+	"voter-search/utils"
 )
 
 func VoterDetailsSearchHandler(w http.ResponseWriter, r *http.Request) {
@@ -14,19 +15,20 @@ func VoterDetailsSearchHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var req models.EpicSearchRequest
+	var req models.VoterSearchRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		http.Error(w, "Error decoding request body", http.StatusBadRequest)
+		return
+	}
+	// Log the received JSON
+	log.Printf("Received Voter search request: %+v\n", req)
+
+	apiResponse, err := utils.FetchVoterSearchInfo(req)
+	if err != nil {
+		utils.SendJSONError(w, "Error fetching EPIC info: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Log the received JSON
-	log.Printf("Received EPIC search request: %+v\n", req)
-
-	response := models.EpicSearchResponse{
-		Error:   false,
-		Message: "got param",
-	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	json.NewEncoder(w).Encode(apiResponse[0].Content) // Respond with the "content" part of the API response
 }
