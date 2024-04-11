@@ -9,3 +9,10 @@ type EpicSearchRequest struct {
 	CaptchaData string `json:"captchaData"`
 	SecurityKey string `json:"securityKey"`
 }
+type MobileSearchRequest struct {
+	MobNo       string `json:"mobNo"`
+	StateCd     string `json:"stateCd"`
+	CaptchaId   string `json:"captchaId"`
+	CaptchaData string `json:"captchaData"`
+	SecurityKey string `json:"securityKey"`
+}

@@ -42,3 +42,9 @@ func (ts *TrimmedString) UnmarshalJSON(data []byte) error {
 	*ts = TrimmedString(strings.TrimSpace(s))
 	return nil
 }
+
+// ErrorResponse represents a JSON structure for API error responses.
+type ErrorResponse struct {
+	Error   bool   `json:"error"`
+	Message string `json:"message"`
+}

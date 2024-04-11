@@ -3,7 +3,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"voter-search/models"
@@ -26,7 +25,7 @@ func EpicSearchHandler(w http.ResponseWriter, r *http.Request) {
 
 	apiResponse, err := utils.FetchEpicInfo(req)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("Error fetching EPIC info: %s", err), http.StatusInternalServerError)
+		utils.SendJSONError(w, "Error fetching EPIC info: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
