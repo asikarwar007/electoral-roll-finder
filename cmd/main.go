@@ -32,7 +32,7 @@ func main() {
 	r.Use(corsMiddleware)
 
 	log.Println("Server starting on http://localhost:8080...")
-	http.ListenAndServe(":8080", r)
+	http.ListenAndServe(":8090", r)
 
 }
 func corsMiddleware(next http.Handler) http.Handler {
