@@ -37,7 +37,7 @@ type EpicAPIContent struct {
 	RelationNameL2          *TrimmedString `json:"relationNameL2,omitempty"`
 	Age                     int            `json:"age,omitempty"`
 	Gender                  TrimmedString  `json:"gender,omitempty"`
-	PartNumber              int            `json:"partNumber,omitempty"`
+	// PartNumber              int            `json:"partNumber,omitempty"`
 	PartId                  int            `json:"partId,omitempty"`
 	PartName                TrimmedString  `json:"partName,omitempty"`
 	PartNameL1              TrimmedString  `json:"partNameL1,omitempty"`
